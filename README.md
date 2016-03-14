@@ -6,6 +6,11 @@ This is the engineering blog of Monsanto engineers, where we’ll share
 ideas we have, open source software we use and have created. Watch
 this space for future articles.
 
+## New Posts
+
+To contribute a new post, Monsanto engineers should work against our internal version of the blog at: 
+https://github.com/MonsantoCo/engineering-blog-int .
+
 ## Usage and development
 
 *   Our engineering blog is built by [Jekyll][], so to work on it first
