@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    
+        
+    
+    <meta property="og:site_name" content="Monsanto Engineering Blog" />
+    <meta property="og:title" content="Cluster Lightly" />
+    <meta property="og:description" content="Organizing Geospatial Data Without Overwhelming Your Browser" />
+    <meta property="og:url" content="http://engineering.monsanto.com/2015/09/21/leaflet-light-cluster/" />
+    <meta property="og:image" content="http://engineering.monsanto.com/img/light-cluster-view.jpg" />
+    <meta name="description" content="Organizing Geospatial Data Without Overwhelming Your Browser" />
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <title>Cluster Lightly - Engineering at Monsanto</title>
+
+    <link rel="canonical" href="http://engineering.monsanto.com/2015/09/21/leaflet-light-cluster/" />
+
+    <!-- twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Cluster Lightly" />
+    <meta name="twitter:description" content="Organizing Geospatial Data Without Overwhelming Your Browser" />
+    <meta name="twitter:url" content="http://engineering.monsanto.com/2015/09/21/leaflet-light-cluster/" />
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.min.css" />
+    <link rel="stylesheet" href="/css/scala-colors.min.css" />
+
+    
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css" />
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://engineering.monsanto.com/feed.xml">
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Engineering at Monsanto</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/careers/">Careers</a>
+                </li>
+                
+                <li>
+                    <a href="/code/">Code</a>
+                </li>
+                
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/light-cluster-view.jpg')">
+    <div class="heading-underlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Cluster Lightly</h1>
+                        
+                        <h2 class="subheading">Organizing Geospatial Data Without Overwhelming Your Browser</h2>
+                        
+                        <span class="meta">Posted  by Caleb Courier on September 21, 2015</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
+
+				<p>As the amount of available technology increases so does the amount of available data.  Of this newly available data,
+much of it is concerned with two major questions:</p>
+
+<ul>
+<li>When?</li>
+</ul>
+
+<p>and</p>
+
+<ul>
+<li>Where?</li>
+</ul>
+
+<p>The ability to associate data throughout time and space has allowed the development of applications that can make
+informed decisions based on someone&rsquo;s position at a particular time.
+These machine-made suggestions can be as commonplace as what route to take home during rush hour from applications such
+as Waze or Google Maps, or as seemingly complex as deciding where to get brunch by typing something ridiculous like
+&ldquo;open breakfast diners with really big omelets near me&rdquo; into a search engine on your smartphone. Machine made decisions
+like this are made possible by the growing amount of geospatial data, i.e., information that is related to a specific
+location.  The problem that we face now is not where to get the data or even how to store it necessarily, but rather
+how to visually represent this large amount of data in a meaningful way.  This is where clustering comes into play.</p>
+
+<p>Clustering geospatial data is not a new concept. It has been used in GIS related fields for centuries for reasons
+such as Dr. John Snow&rsquo;s method to track cholera outbreaks in the mid 1800&rsquo;s to modern day classification algorithms
+used in image analysis.  However, as developers, one of the challenges we face is when and how to actually cluster the
+data we have.  Plenty of libraries and modules exist that will take your data into a black box and spit out some
+clustered objects, and these work phenomenally under certain conditions.  For example, if you don&rsquo;t have a terrible
+amount of data, say just a few thousand objects, or if you don&rsquo;t mind handing your data over to a third party via a
+webservice then these are great options.  On the other hand, if you&rsquo;re dealing with millions of objects or points you
+probably won&rsquo;t be able to, and won&rsquo;t want to, do heavy processing with them on the client.  This is where LightCluster
+comes in.</p>
+
+<p>In short, LightCluster is an extension for the Leaflet.js mapping library that allows you to use a server side
+clustering solution for geospatial data.  Unlike other javascript clustering libraries, LightCluster doesn&rsquo;t want all
+the data up front in order to run clustering algorithms on the client; instead it expects a minimized cluster object
+consisting of a lat-long pair to know where to place it, a bounding box to show the area of the data it represents, and
+a count of how many objects it&rsquo;s representing.  You may be thinking &ldquo;Hold on now, what exactly does it do then?&rdquo;. The
+answer to that is: Whatever you tell it to.  Upon initialization this simple extension will take in an anonymous
+function which you define for updating the data and, depending on the options you pass in, it will use your update
+function when handling all of the click, drag, and zoom events on the map.  It also keeps track of how many
+points/objects are in the cluster and will reduce the cluster to a standard leaflet marker if the count is only one.
+Because of this simplification on the client you can define and execute all the intense processing on the server side
+where it should be.  Granted, this requires you to develop your own clustering solution in order to generate these
+light weight cluster objects.  The good news is it&rsquo;s not as hard as it sounds.  One extremely simple solution is to use
+<a href="http://www.movable-type.co.uk/scripts/geohash.html">geohash</a>.  Since geohash already represents points/areas in a
+unique way that can be directly related at various amounts of precision, most of the work of correlating your data into
+related geospatial regions is already done.  Since this method is so simple it&rsquo;s actually what I used to generate the
+sample data used in the <a href="https://github.com/CalebCourier/Leaflet.LightCluster">demo project</a>. Of course if you would
+rather use something more traditional or statistical feel free.  Some of the more commonly used clustering algorithms
+include DBSCAN and K-means both of which you can find code implementations with a simple Google search. No matter what
+you do, LightCluster will take it and perform its simple task of rendering and updating keeping your client code light
+and your map performant.</p>
+
+
+                
+
+                        <div class="post-signature multiple">
+                            posted on September 21, 2015 by <br>
+                        
+
+
+                            <div class="author">
+                                
+                                <img src="/img/placeholder.jpg">
+                                
+                                    <span>
+                                        Caleb Courier
+                                    </span>
+
+                                
+                                
+                                <a  href="https://github.com/CalebCourier">
+                                    <i class="fa fa-github fa-1x"></i>
+                                </a>
+                                
+                            </div>
+                        
+                        </div>
+                
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/08/20/cf-metrics/" data-toggle="tooltip" data-placement="top" title="Cloud Foundry Metrics">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2015/09/23/implicits-typeclasses/" data-toggle="tooltip" data-placement="top" title="Learn implicits: Type classes">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <li>
+                        <a href="https://twitter.com/MonPlatformEng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.youtube.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-youtube-square fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.facebook.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://github.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 2016 Engineering at Monsanto &nbsp;|&nbsp; Built with <a href="http://jekyllrb.com/">Jekyll</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a><br />
+                    <a href="/sitemap.xml">Sitemap</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/legal-notice/Pages/default.aspx">Legal Notice</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/privacy-policy/Pages/default.aspx">Privacy Policy</a> &nbsp;|&nbsp;
+                    <a href="/contact">Contact Us</a>
+
+                    </p>
+                <div align="center"><br /><img src="/img/Monsanto_logo.jpg" width="170" height="54" border="0" /></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- Google Analytics JavaScript -->
+
+<script>
+if (/monsanto\.com/.test(window.location.hostname)) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43186905-16', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+    var trackOutboundLink = function(url) {
+        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                function () {
+                    document.location = url;
+                }
+        });
+    }
+}
+</script>
+<script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

@@ -11,24 +11,24 @@
         
     
     <meta property="og:site_name" content="Monsanto Engineering Blog" />
-    <meta property="og:title" content="" />
-    <meta property="og:description" content="We produce code that powers agricultural products that support farmers all around the world." />
-    <meta property="og:url" content="http://engineering.monsanto.com/" />
+    <meta property="og:title" content="PaaSify your Apps" />
+    <meta property="og:description" content="Building an Open Source Cloud Foundry Toolbox" />
+    <meta property="og:url" content="http://engineering.monsanto.com/2015/07/22/building-an-open-source-cloud-foundry-toolbox/" />
     <meta property="og:image" content="http://engineering.monsanto.com/img/mon-field_rows.jpg" />
-    <meta name="description" content="We produce code that powers agricultural products that support farmers all around the world." />
+    <meta name="description" content="Building an Open Source Cloud Foundry Toolbox" />
     
 
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    <title>Engineering at Monsanto</title>
+    <title>PaaSify your Apps - Engineering at Monsanto</title>
 
-    <link rel="canonical" href="http://engineering.monsanto.com/" />
+    <link rel="canonical" href="http://engineering.monsanto.com/2015/07/22/building-an-open-source-cloud-foundry-toolbox/" />
 
     <!-- twitter cards -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="" />
-    <meta name="twitter:description" content="We produce code that powers agricultural products that support farmers all around the world." />
-    <meta name="twitter:url" content="http://engineering.monsanto.com/" />
+    <meta name="twitter:title" content="PaaSify your Apps" />
+    <meta name="twitter:description" content="Building an Open Source Cloud Foundry Toolbox" />
+    <meta name="twitter:url" content="http://engineering.monsanto.com/2015/07/22/building-an-open-source-cloud-foundry-toolbox/" />
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -103,16 +103,18 @@
 </nav>
 
 
-    <!-- Page Header -->
+    <!-- Post Header -->
 <header class="intro-header" style="background-image: url('/img/mon-field_rows.jpg')">
     <div class="heading-underlay">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>Engineering at Monsanto</h1>
-                        <hr class="small">
-                        <span class="subheading">We produce code that powers agricultural products that support farmers all around the world.</span>
+                    <div class="post-heading">
+                        <h1>PaaSify your Apps</h1>
+                        
+                        <h2 class="subheading">Building an Open Source Cloud Foundry Toolbox</h2>
+                        
+                        <span class="meta">Posted  by Mark Seidenstricker on July 22, 2015</span>
                     </div>
                 </div>
             </div>
@@ -120,163 +122,71 @@
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
-		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-			
-<div class="post-preview">
-    <a href="/2016/03/11/passport-ping-oauth2/">
-        <h2 class="post-title">            Easy Node Authentication With Ping
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Passport Module To Easily Handle Ping's OAuth and OpenID Connect Services
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by Brenden McKamey on March 11, 2016</span>
-</div>
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
 
+				<p>The age of cloud computing is already here, and companies who don&rsquo;t adapt are at serious risk of getting left in the dust.  At Monsanto we have fully embraced the transformation this revolution has brought and are diligently on the path towards a modern IT landscape focused around public cloud, microservices, open source technologies, and <a href="http://12factor.net/">12 factor apps</a>.  Transformations however, rarely happen overnight and like most enterprise companies we were starting the journey with a datacenter full of legacy and not-so-cloudy apps.  So our first step was to adopt
+<a href="https://docs.cloudfoundry.org/concepts/overview.html">Cloud Foundry</a>, an open platform as a service which allowed our dev teams to start learning/adopting cloud designs on top of an agile platform in the safety of our private datacenter.  </p>
 
-<hr>
+<p>We&rsquo;ve been using Cloud Foundry for over a year now, and the core project is fairly comprehensive with extensions and tooling being contributed by the <a href="https://github.com/cloudfoundry-community">community</a> on a regular basis.  But there are still a few areas which lack open source solutions to address the capabilities seen in the branded CF offerings.  In addition to using some of the existing community <a href="https://github.com/cloudfoundry-incubator/admin-ui">tools</a> we&rsquo;ve also added a few of our own and we&rsquo;ll be opening the first three projects from this toolbox to the community.</p>
 
+<p>Starting with <a href="https://github.com/MonsantoCo/cf-portal">CF-Portal</a>, we will be doing a multi-part blog post over the coming weeks for each tool corresponding with its public release.  We hope these are useful to others using the platform, and we look forward to feedback and contribution to continue growing the Cloud Foundry community toolbox.</p>
 
-<div class="post-preview">
-    <a href="/2016/01/29/cf-users/">
-        <h2 class="post-title">            Cloud Foundry User Administration
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Open Source User Administration Web Application for Cloud Foundry
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by Russell Caswell on January 29, 2016</span>
-</div>
-
-
-<hr>
-
-
-<div class="post-preview">
-    <a href="/2016/01/11/algebraic-data-types/">
-        <h2 class="post-title">            Algebraic Data Types
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Huh? What are they good for?
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by John Klingler on January 11, 2016</span>
-</div>
-
-
-<hr>
-
-
-<div class="post-preview">
-    <a href="/2015/11/23/chinese-restaurant-process/">
-        <h2 class="post-title">            Optimized Chinese Restaurant Process
-        </h2>
-        
-        <h3 class="post-subtitle">
-            or Clustering with the Dirichlet Process Mixture Model in Scala
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by Ryan Richt on November 23, 2015</span>
-</div>
-
-
-<hr>
-
-
-<div class="post-preview">
-    <a href="/2015/11/16/what-makes-a-data-scientist-part-3/">
-        <h2 class="post-title">            What Makes a Data Scientist - Part 3
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Finding Unicorns in the Midwest
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by Seth Dobrin on November 16, 2015</span>
-</div>
-
-
-<hr>
-
-
-<div class="post-preview">
-    <a href="/2015/11/13/analytics-part-1/">
-        <h2 class="post-title">            Anatomy of Analytics
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Part 1
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by Naghman Waheed on November 13, 2015</span>
-</div>
-
-
-<hr>
-
-
-<div class="post-preview">
-    <a href="/2015/11/12/simple-spray-part-2/">
-        <h2 class="post-title">            Building a simple Spray application - Part 2
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Improving routes and responses
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by Scott MacDonald on November 12, 2015</span>
-</div>
-
-
-<hr>
-
-
-<div class="post-preview">
-    <a href="/2015/11/11/what-makes-a-data-scientist-part-2/">
-        <h2 class="post-title">            What Makes a Data Scientist - Part 2
-        </h2>
-        
-        <h3 class="post-subtitle">
-            The Role of Teams
-        </h3>
-        
-    </a>
-    <span class="post-meta">Posted  by Seth Dobrin on November 11, 2015</span>
-</div>
-
-
-<hr>
-
-
-
-<!-- Pager -->
-
-<ul class="pager">
-    
-    
-    <li class="next">
-        <a href="/page2/">Older Posts &rarr;</a>
-    </li>
-    
+<ul>
+<li><a href="https://github.com/MonsantoCo/cf-portal">CF-Portal</a>: A Single Pane of Glass for Cloud Foundry Apps</li>
+<li><a href="https://github.com/MonsantoCo/cf-users">CF-Users</a>: Self Service Team Management for Cloud Foundry</li>
+<li><a href="https://github.com/MonsantoCo/cf-metrics">CF-Metrics</a>: Open Source Monitoring and Alerting for Cloud Foundry</li>
 </ul>
 
 
-		</div>
-	</div>
-</div>
+                
+
+                        <div class="post-signature multiple">
+                            posted on July 22, 2015 by <br>
+                        
+
+
+                            <div class="author">
+                                
+                                <img src="https://avatars2.githubusercontent.com/u/4573660?v=3&s=40">
+                                
+                                    <span>
+                                        Mark Seidenstricker
+                                    </span>
+
+                                
+                                
+                                <a  href="https://github.com/mjseid">
+                                    <i class="fa fa-github fa-1x"></i>
+                                </a>
+                                
+                            </div>
+                        
+                        </div>
+                
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/07/10/cloudformation-template-generator/" data-toggle="tooltip" data-placement="top" title="CloudFormation Template Generator">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2015/07/28/avoiding-mocks/" data-toggle="tooltip" data-placement="top" title="Testing without mocking in Scala">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
 
 <hr>
 

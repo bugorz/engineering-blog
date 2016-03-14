@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    
+        
+    
+    <meta property="og:site_name" content="Monsanto Engineering Blog" />
+    <meta property="og:title" content="Cloud Foundry User Administration" />
+    <meta property="og:description" content="Announcing CF-Users, an open source user administration web application for Cloud Foundry" />
+    <meta property="og:url" content="http://engineering.monsanto.com/2016/01/29/cf-users/" />
+    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-chesterfield.jpg" />
+    <meta name="description" content="Announcing CF-Users, an open source user administration web application for Cloud Foundry" />
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <title>Cloud Foundry User Administration - Engineering at Monsanto</title>
+
+    <link rel="canonical" href="http://engineering.monsanto.com/2016/01/29/cf-users/" />
+
+    <!-- twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Cloud Foundry User Administration" />
+    <meta name="twitter:description" content="Announcing CF-Users, an open source user administration web application for Cloud Foundry" />
+    <meta name="twitter:url" content="http://engineering.monsanto.com/2016/01/29/cf-users/" />
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.min.css" />
+    <link rel="stylesheet" href="/css/scala-colors.min.css" />
+
+    
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css" />
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://engineering.monsanto.com/feed.xml">
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Engineering at Monsanto</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/careers/">Careers</a>
+                </li>
+                
+                <li>
+                    <a href="/code/">Code</a>
+                </li>
+                
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/mon-chesterfield.jpg')">
+    <div class="heading-underlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Cloud Foundry User Administration</h1>
+                        
+                        <h2 class="subheading">Open Source User Administration Web Application for Cloud Foundry</h2>
+                        
+                        <span class="meta">Posted  by Russell Caswell on January 29, 2016</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
+
+				<h1>Cloud Foundry User Administration</h1>
+
+<p>In the third installation of our open source <a href="http://engineering.monsanto.com/2015/07/22/building-an-open-source-cloud-foundry-toolbox/">Cloud Foundry (CF) toolbox series</a> we unveil <a href="https://github.com/MonsantoCo/cf-users">CF-Users</a>, a web based solution for managing Cloud Foundry user credentials and authorization.
+Enabling team collaboration and self-sufficiency is a core principal of Cloud Foundry, one which heavily relies on the concepts of <a href="https://docs.cloudfoundry.org/concepts/roles.html">Organizations, Spaces, and Roles</a>.  These built in mechanisms allow teams full access to manage roles and permissions without the chance of impacting other teams using the shared platform.  This seemingly simple ability is increasingly vital as your organization grows, allowing more responsibility to be pushed to the teams themselves and reducing reliance on a centralized ops team.</p>
+
+<h2>The Catch</h2>
+
+<p>So what&rsquo;s the catch?  Out of the box the only tool Cloud Foundry provides for managing user and permissions is the <a href="https://github.com/cloudfoundry/cli">CF CLI</a>.  Although incredibly useful, the cli restricts access to user management commands to only admin level users. This essentially ignores the Org and Space level manager roles which a user may have.  In addition, user management through the cli is a multi-step process requiring multiple commands to accomplish most tasks.  As our utilization of Cloud Foundry grew, we quickly found that relying on the command line interface to add users and configure multiple roles to individuals was a cumbersome task, which was taking increasingly more time. More importantly it was actually an anti-pattern to the DevOps goals we were trying to achieve.</p>
+
+<h2>Enter CF-Users</h2>
+
+<p>Although the cli doesn&rsquo;t allow users to take full advantage of CF&rsquo;s role functionality, all the necessary mechanisms to do so are still available under the hood.  With CF-Users we created a web-ui which ties into these mechanisms and exposes them in a secure way to the development teams.  In addition to moving user management from an ops role back to the teams, the number of steps required to manage users is also greatly reduced by offering the ability to simultaneously add a user and configure permissions.  This takes what is a multistep process at the command line and reduces it to one form of entry and submittal, which greatly reduces the steps needed to add a user.  </p>
+
+<p>CF-Users also offers two different workflows for modifying a user&rsquo;s roles within Cloud Foundry, allowing assignment of roles from the most convenient perspective needed.  For instance, if a new organization or space has been added, the User Role Admin page may be used to assign roles to multiple users at that level without the need to navigate several web pages.   Conversely, if only one user needs permissions added, the Edit User screen may be used to assign multiple roles for that user.  Efficiency is greatly improved, simplifying the process to a few mouse clicks.</p>
+
+<h2>Using the application</h2>
+
+<h3>Add User</h3>
+
+<p>Organization managers and space managers both may add users with CF-Users.  However, organization managers may only assign roles within organizations that that they manage.  Likewise, space managers may only assign roles within spaces that they manage.  Adding a user is as easy as entering the username and optionally password (depending on the type of user account created), select roles for the user, and click the Create User button.</p>
+
+<p><img src="/img/AddUser.jpg" alt="Add user "></p>
+
+<h3>Edit User</h3>
+
+<p>This screen allows organization managers and space managers to modify the privileges assigned to users.  The user roles may be selected or deselected by clicking the appropriate checkboxes.   The privileges are updated as these checkboxes are clicked and feedback is given with a Growl message when the action is completed.</p>
+
+<p><img src="/img/EditUser.jpg" alt="Edit user "></p>
+
+<h3>User Role Admin</h3>
+
+<p>This screen allows privilege modification from the perspective of the organization and the spaces rather than from the user perspective.  This is accomplished by allowing the selection of the organization and/or space and displaying a list of users who can be assigned roles at the chosen level.  As with edit user, the privileges are updated as the checkboxes are clicked and feedback is given with a Growl message when the action is completed.</p>
+
+<p><img src="/img/UserRoleAdmin.jpg" alt="User role admin "></p>
+
+<h2>In conclusion</h2>
+
+<p>If you would like to deploy CF-Users yourself, go to the <a href="https://github.com/MonsantoCo/cf-users">github page</a> to download and deploy it.  If you have any enhancements you would like to contribute, submit a <a href="https://help.github.com/articles/using-pull-requests/">pull request</a>.  We welcome enhancements to this project to make it more effective and improve efficiency of user administration.</p>
+
+
+                
+
+                        <div class="post-signature multiple">
+                            posted on January 29, 2016 by <br>
+                        
+
+
+                            <div class="author">
+                                
+                                <img src="https://avatars2.githubusercontent.com/u/11236017?v=3&s=40">
+                                
+                                    <span>
+                                        Russell Caswell
+                                    </span>
+
+                                
+                                
+                                <a  href="https://github.com/rlcaswmon">
+                                    <i class="fa fa-github fa-1x"></i>
+                                </a>
+                                
+                            </div>
+                        
+                        </div>
+                
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/01/11/algebraic-data-types/" data-toggle="tooltip" data-placement="top" title="Algebraic Data Types">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/03/11/passport-ping-oauth2/" data-toggle="tooltip" data-placement="top" title="Easy Node Authentication With Ping">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <li>
+                        <a href="https://twitter.com/MonPlatformEng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.youtube.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-youtube-square fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.facebook.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://github.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 2016 Engineering at Monsanto &nbsp;|&nbsp; Built with <a href="http://jekyllrb.com/">Jekyll</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a><br />
+                    <a href="/sitemap.xml">Sitemap</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/legal-notice/Pages/default.aspx">Legal Notice</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/privacy-policy/Pages/default.aspx">Privacy Policy</a> &nbsp;|&nbsp;
+                    <a href="/contact">Contact Us</a>
+
+                    </p>
+                <div align="center"><br /><img src="/img/Monsanto_logo.jpg" width="170" height="54" border="0" /></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- Google Analytics JavaScript -->
+
+<script>
+if (/monsanto\.com/.test(window.location.hostname)) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43186905-16', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+    var trackOutboundLink = function(url) {
+        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                function () {
+                    document.location = url;
+                }
+        });
+    }
+}
+</script>
+<script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

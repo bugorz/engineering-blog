@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    
+        
+    
+    <meta property="og:site_name" content="Monsanto Engineering Blog" />
+    <meta property="og:title" content="Algebraic Data Types" />
+    <meta property="og:description" content="Algebraic data types, usually abbreviated ADTs, are a useful construct to know how to use." />
+    <meta property="og:url" content="http://engineering.monsanto.com/2016/01/11/algebraic-data-types/" />
+    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-monmouth.jpg" />
+    <meta name="description" content="Algebraic data types, usually abbreviated ADTs, are a useful construct to know how to use." />
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <title>Algebraic Data Types - Engineering at Monsanto</title>
+
+    <link rel="canonical" href="http://engineering.monsanto.com/2016/01/11/algebraic-data-types/" />
+
+    <!-- twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Algebraic Data Types" />
+    <meta name="twitter:description" content="Algebraic data types, usually abbreviated ADTs, are a useful construct to know how to use." />
+    <meta name="twitter:url" content="http://engineering.monsanto.com/2016/01/11/algebraic-data-types/" />
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.min.css" />
+    <link rel="stylesheet" href="/css/scala-colors.min.css" />
+
+    
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css" />
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://engineering.monsanto.com/feed.xml">
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Engineering at Monsanto</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/careers/">Careers</a>
+                </li>
+                
+                <li>
+                    <a href="/code/">Code</a>
+                </li>
+                
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/mon-monmouth.jpg')">
+    <div class="heading-underlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Algebraic Data Types</h1>
+                        
+                        <h2 class="subheading">Huh? What are they good for?</h2>
+                        
+                        <span class="meta">Posted  by John Klingler on January 11, 2016</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
+
+				<p><a href="https://en.wikipedia.org/wiki/Algebraic_data_type">Algebraic data types</a>, usually abbreviated ADTs, are a useful construct in programming to increase code clarity and reduce the likelihood of errors. Generally speaking, they&rsquo;re somewhat similar to enums in Java, but Scala lends much more power to the construct. ADTs define a fixed set of all possible values of a given type. The classic example of an ADT in Scala is the <a href="http://www.scala-lang.org/api/current/index.html#scala.Option"><code>Option</code></a> type. An <code>Option</code> represents something that may or may not have a value. No value is <code>None</code> and some value is <code>Some()</code>. This is the functional version of returning an object or null from a method in Java, and is very useful for Java interoperability to eliminate <code>NullPointerException</code>&rsquo;s.</p>
+
+<p>To see how ADTs may be implemented in our code, we will begin with the example of the classic counting game <a href="https://en.wikipedia.org/wiki/Fizz_buzz">FizzBuzz</a>. The game begins with participants taking turns counting up from 1, but saying fizz instead of numbers which are multiples of 3, buzz instead of numbers which are multiples of 5, and fizzbuzz for numbers which are both. Now let&rsquo;s look at how FizzBuzz could be written in Java:</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printIt</span><span class="o">(</span><span class="n">Integer</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;FizzBuzz&quot;</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fizz&quot;</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Buzz&quot;</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">printIt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Nothing out of the ordinary here. If we just translated this into Scala, we&rsquo;d have something similar to:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">printIt</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">&quot;FizzBuzz&quot;</span><span class="o">)</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Fizz&quot;</span><span class="o">)</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Buzz&quot;</span><span class="o">)</span>
+  <span class="k">else</span>
+    <span class="n">println</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="n">valueOf</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">printIt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>As experienced Scala developers, we would recognize there are more functional ways to accomplish this task. One way is: </p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">isMod</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="o">(</span><span class="n">m</span><span class="o">,</span> <span class="n">i</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">i</span> <span class="o">%</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">val</span> <span class="n">mod3</span> <span class="k">=</span> <span class="n">isMod</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">mod5</span> <span class="k">=</span> <span class="n">isMod</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">fizzBuzzIt</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">String</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="n">i</span> <span class="k">if</span> <span class="n">mod3</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">mod5</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">&quot;FizzBuzz&quot;</span>
+  <span class="k">case</span> <span class="n">i</span> <span class="k">if</span> <span class="n">mod3</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>            <span class="k">=&gt;</span> <span class="s">&quot;Fizz&quot;</span>
+  <span class="k">case</span> <span class="n">i</span> <span class="k">if</span> <span class="n">mod5</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>            <span class="k">=&gt;</span> <span class="s">&quot;Buzz&quot;</span>
+  <span class="k">case</span> <span class="n">i</span>                       <span class="k">=&gt;</span> <span class="n">i</span><span class="o">.</span><span class="n">toString</span>
+<span class="o">}</span>
+
+<span class="nc">Stream</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">fizzBuzzIt</span><span class="o">).</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</code></pre></div>
+<p>So that works just fine and does exactly what we needed. But what if we want to share the FizzBuzzification functionality as a library? We could just publish our <code>fizzBuzzIt</code> function. However, if users wanted to do something different depending on whether it&rsquo;s a Fizz or a Buzz, they&rsquo;d have to resort to string matching which is brittle and definitely not type safe. One typo would result in incorrect behavior or, even worse, failures at runtime. While proper unit tests may catch these sorts of errors, it is just as likely they copied over the error or defined a constant with the typo. The tests would never catch it.</p>
+
+<p>Here is where we can leverage ADTs to get the job done. First off, we need to define the type of our collection of values:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">sealed</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">toString</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>There are two things to note here. First, we&rsquo;ve defined a <code>sealed</code> class which tells the compiler that only classes within the same file are allowed to inherit from this class. This effectively prevents anyone from adding additional values to our type. This is important because adding more values somewhere might lead to unanticipated problems like a <code>MatchError</code> being thrown in a pattern match that doesn&rsquo;t handle this new value. Secondly, we&rsquo;ve declared shared functionality for all values with the toString method, standard OO stuff.</p>
+
+<p>Now we need to define all of the possible values of our ADT. Remember, these all have to be in the same file as the trait:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">case</span> <span class="k">class</span> <span class="nc">Fizz</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="n">toString</span> <span class="k">=</span> <span class="s">&quot;Fizz&quot;</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Buzz</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="n">toString</span> <span class="k">=</span> <span class="s">&quot;Buzz&quot;</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">FizzBuzz</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="n">toString</span> <span class="k">=</span> <span class="s">&quot;FizzBuzz&quot;</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">JustInt</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+</code></pre></div>
+<p>We&rsquo;ve defined <code>Fizz</code>, <code>Buzz</code>, <code>FizzBuzz</code>, and <code>JustInt</code>. It might not yet be clear why we&rsquo;ve defined constructor arguments for <code>Fizz</code>, <code>Buzz</code>
+, and <code>FizzBuzz</code>, but it gives us some opportunities that we&rsquo;ll discuss in a minute.</p>
+
+<p>Now all we need is a way to create our values given any integer. The <code>FizzBuzzADT</code> companion object is the perfect place for this:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">FizzBuzzADT</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">FizzBuzzADT</span> <span class="o">=</span> <span class="n">i</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="nc">FizzBuzz</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span>               <span class="k">=&gt;</span> <span class="nc">Fizz</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span>               <span class="k">=&gt;</span> <span class="nc">Buzz</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+    <span class="k">case</span> <span class="k">_</span>                             <span class="k">=&gt;</span> <span class="nc">JustInt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Here you see that the logic for determining whether the integer is a &ldquo;Fizz&rdquo;, &ldquo;Buzz&rdquo;, &ldquo;FizzBuzz&rdquo;, or just an integer hasn&rsquo;t changed or gone away; instead of just printing the value, we&rsquo;re mapping the integers to one of the values of our ADT. So to run our new FizzBuzz algorithm and print the values, we can use:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="nc">Stream</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="k">_</span><span class="o">)).</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</code></pre></div>
+<p>So you&rsquo;re probably thinking that this doesn&rsquo;t look all that different from our &ldquo;idiomatic Scala&rdquo; implementation from above. Scala is supposed to be more concise. What did all that extra code buy us? Well, remember the constructor arguments to the case classes? Let&rsquo;s say, for example, that we have a collection of <code>FizzBuzzADT</code>&rsquo;s (but no access to the collection of integers from which it was created) and we only want to print something out if the original integer was even. We can do this using pattern matching:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="n">even</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">i</span> <span class="k">=&gt;</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="c1">// Pretend the Stream[Int] came from somewhere else</span>
+<span class="nc">Stream</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="k">_</span><span class="o">)).</span><span class="n">foreach</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="n">a</span><span class="nd">@Fizz</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">if</span> <span class="n">even</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>     <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+  <span class="k">case</span> <span class="n">a</span><span class="nd">@Buzz</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">if</span> <span class="n">even</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>     <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+  <span class="k">case</span> <span class="n">a</span><span class="nd">@FizzBuzz</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">if</span> <span class="n">even</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+  <span class="k">case</span> <span class="n">a</span><span class="nd">@JustInt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">if</span> <span class="n">even</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>  <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+  <span class="k">case</span> <span class="k">_</span>                        <span class="k">=&gt;</span> <span class="c1">// Be quiet</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Certainly, we could have accomplished this example more effectively, by exposing the original integer as a value in the abstract class, but the purpose here was to demonstrate the power and flexibility of pattern matching with ADTs.</p>
+
+<p>For another example, let&rsquo;s suppose for a second that I don&rsquo;t like Fizz. In fact, I hate it; I never want to see it. Let&rsquo;s get rid of the Fizz:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="nc">Stream</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="k">_</span><span class="o">)).</span><span class="n">foreach</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Fizz</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="c1">// Down with the bloody bad Fizz</span>
+  <span class="k">case</span> <span class="n">x</span>       <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>In this case, we don&rsquo;t really need pattern matching and we can accomplish the same thing more concisely:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="nc">Stream</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="nc">FizzBuzzADT</span><span class="o">(</span><span class="k">_</span><span class="o">)).</span><span class="n">filter</span><span class="o">(!</span><span class="k">_</span><span class="o">.</span><span class="n">isInstanceOf</span><span class="o">[</span><span class="kt">Fizz</span><span class="o">]).</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</code></pre></div>
+<p>Sure, you could just as easily have ridded the world of Fizz with the implementation above:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="nc">Stream</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">fizzBuzzIt</span><span class="o">).</span><span class="n">filter</span><span class="o">(</span><span class="k">_</span> <span class="o">!=</span> <span class="s">&quot;Fizz&quot;</span><span class="o">).</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</code></pre></div>
+<p>But are you sure there&rsquo;s not a typo? What if it&rsquo;s decided that Fizz should be spelled Fisz? These all end up being runtime errors and who likes those? We have to write tests for these scenarios and even those tests are prone to the same problems. The ADT turns these runtime errors into compile time errors. Because we can&rsquo;t even run tests if the code doesn&rsquo;t compile, we&rsquo;ve eliminated a whole class of tests. These tests weren&rsquo;t truly valuable anyway as they validated library integration, not business functionality. So, in that sense, ADT&rsquo;s also let us spend more brain cycles on business functionality.</p>
+
+<p>Our simple FizzBuzz example demonstrates how ADTs can replace runtime with compile-time errors and transform a brittle algorithm to be type-safe. Hopefully I&rsquo;ve demystified algebraic data types and shown how they&rsquo;re valuable constructs you can employ in your code to build more robust applications.</p>
+
+<p>All code shown can be found <a href="https://github.com/MonsantoCo/algebraic-datatypes">here</a> or just <code>git clone git@github.com:MonsantoCo/algebraic-datatypes.git</code>.</p>
+
+
+                
+
+                        <div class="post-signature multiple">
+                            posted on January 11, 2016 by <br>
+                        
+
+
+                            <div class="author">
+                                
+                                <img src="https://en.gravatar.com/userimage/53272847/ea13fb59ab7158db2518972472255f90.jpg&s=40">
+                                
+                                    <span>
+                                        John Klingler
+                                    </span>
+
+                                
+                                <a  href="https://twitter.com/jfklingler">
+                                    <i class="fa fa-twitter fa-1x "></i>
+                                </a>
+                                
+                                
+                                <a  href="https://github.com/jfklingler">
+                                    <i class="fa fa-github fa-1x"></i>
+                                </a>
+                                
+                            </div>
+                        
+                        </div>
+                
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/11/23/chinese-restaurant-process/" data-toggle="tooltip" data-placement="top" title="Optimized Chinese Restaurant Process">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/01/29/cf-users/" data-toggle="tooltip" data-placement="top" title="Cloud Foundry User Administration">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <li>
+                        <a href="https://twitter.com/MonPlatformEng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.youtube.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-youtube-square fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.facebook.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://github.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 2016 Engineering at Monsanto &nbsp;|&nbsp; Built with <a href="http://jekyllrb.com/">Jekyll</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a><br />
+                    <a href="/sitemap.xml">Sitemap</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/legal-notice/Pages/default.aspx">Legal Notice</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/privacy-policy/Pages/default.aspx">Privacy Policy</a> &nbsp;|&nbsp;
+                    <a href="/contact">Contact Us</a>
+
+                    </p>
+                <div align="center"><br /><img src="/img/Monsanto_logo.jpg" width="170" height="54" border="0" /></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- Google Analytics JavaScript -->
+
+<script>
+if (/monsanto\.com/.test(window.location.hostname)) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43186905-16', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+    var trackOutboundLink = function(url) {
+        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                function () {
+                    document.location = url;
+                }
+        });
+    }
+}
+</script>
+<script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

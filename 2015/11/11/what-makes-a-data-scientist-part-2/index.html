@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    
+        
+    
+    <meta property="og:site_name" content="Monsanto Engineering Blog" />
+    <meta property="og:title" content="What Makes a Data Scientist - Part 2" />
+    <meta property="og:description" content="A colleague of mine eloquently and rightfully declares that &quot;if one person or one team can solve a problem by themselves, it is probably not a problem worth solving.&quot;" />
+    <meta property="og:url" content="http://engineering.monsanto.com/2015/11/11/what-makes-a-data-scientist-part-2/" />
+    <meta property="og:image" content="http://engineering.monsanto.com/img/mon-maui.jpg" />
+    <meta name="description" content="A colleague of mine eloquently and rightfully declares that &quot;if one person or one team can solve a problem by themselves, it is probably not a problem worth solving.&quot;" />
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <title>What Makes a Data Scientist - Part 2 - Engineering at Monsanto</title>
+
+    <link rel="canonical" href="http://engineering.monsanto.com/2015/11/11/what-makes-a-data-scientist-part-2/" />
+
+    <!-- twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="What Makes a Data Scientist - Part 2" />
+    <meta name="twitter:description" content="A colleague of mine eloquently and rightfully declares that &quot;if one person or one team can solve a problem by themselves, it is probably not a problem worth solving.&quot;" />
+    <meta name="twitter:url" content="http://engineering.monsanto.com/2015/11/11/what-makes-a-data-scientist-part-2/" />
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.min.css" />
+    <link rel="stylesheet" href="/css/scala-colors.min.css" />
+
+    
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css" />
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://engineering.monsanto.com/feed.xml">
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Engineering at Monsanto</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/careers/">Careers</a>
+                </li>
+                
+                <li>
+                    <a href="/code/">Code</a>
+                </li>
+                
+                <li>
+                    <a href="/contact/">Contact</a>
+                </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/img/mon-maui.jpg')">
+    <div class="heading-underlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>What Makes a Data Scientist - Part 2</h1>
+                        
+                        <h2 class="subheading">The Role of Teams</h2>
+                        
+                        <span class="meta">Posted  by Seth Dobrin on November 11, 2015</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-body">
+
+				<p>Reposted from <a href="https://www.linkedin.com/pulse/what-makes-data-scientist-part-2-role-teams-seth-dobrin?trk=prof-post">LinkedIn</a>.</p>
+
+<p>A colleague of mine eloquently and rightfully declares that &ldquo;if one
+person or one team can solve a problem by themselves, it is probably
+not a problem worth solving.&rdquo; Given this context, as a follow on to my
+post &ldquo;<a href="http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/">What Makes a Data Scientist - Part 1</a>,&rdquo; it is fitting to
+explore the role of teams in defining a Data Scientist. As discussed
+in the first post, the spectrum of skills that a Data Scientist needs
+to posses is too vast for a single person to be an expert in all. As
+part of a team she will lead a group of individuals who have more
+depth than her in some areas and less in others. How she utilizes and
+leverages that team as well as her ability to reach across functional
+boundaries will define the level of success her and her team actually
+attain.</p>
+
+<p>Based on the spectrum of work a Data Scientist does she can actually
+land in two different organizations: an analytics team or a data team,
+both of which should have Data Scientists. The expectation for Data
+Scientists varies depending on which side of the fence she lands. The
+team with a data-focused Data Scientist is responsible for data
+architecture, data engineering, data intake, data transformation,
+ontology, metadata, statistical transformation, and descriptive
+analytics &amp; reporting. A Data Scientist who lands on the
+analytics-focused team is responsible for descriptive analytics,
+model-based analytics, and data journalism. This is a critical point,
+if the Data Scientist building the model were responsible for doing
+this foundational work on the data, her natural inclination would be
+to bring it together to solve her problem. The outcome of having a
+separate team led by Data Scientists focused on the data is that the
+data can then be managed with the broader enterprise in mind and not
+just the problem at hand.</p>
+
+<p>To be clear, one person is not expected to be an expert in all of
+these areas regardless of which side of the fence she lands. The
+expectation is that she has a solid understanding of the spectrum and
+depth in at least 2-3 areas, as well as the ability to execute (the
+concept of &ldquo;E-shaped&rdquo; skills). The Data Scientist cannot be the only
+one with an E-shaped skill set, her entire team must have this type of
+skill set as well. If you are familiar with Agile development
+concepts, think of the Data Scientist as Data and Analytics Product
+Owner (PO) and the others as &ldquo;Team Members&rdquo;. With this structure you
+can build Agile teams of 3-4 individuals that possess the necessary
+spectrum of skills and domain expertise.</p>
+
+<p>Since my current focus is leading a data team, I am going to focus on
+the Data Scientist that is on the data side of the fence. In this
+example she must be able to lead and direct her team as well as work
+across organizational boundaries. Her role in this position is to
+understand the data and understand the application of these data to
+solve a complex modeling problem. Leveraging her domain expertise, she
+works with the analytics team to understand its problem and put it in
+the context of the larger organization. To do this the team needs to
+architect and engineer the solution based on a set of use cases. While
+the solution is being architected and engineered, the team needs to
+identify, source, consume, and transform the data. The team also needs
+to ensure the data have appropriate context in the form of an ontology
+and metadata. This is important in building a reusable enterprise data
+asset. Essentially, under her guidance the team must prepare the data
+and <em>publish</em> it to the Enterprise in such a way that it stands on its
+own. This last part is where her foundation in analytics comes
+in. Additionally, her depth of knowledge in statistical
+transformation, descriptive analytics, and reporting comes in to play
+at this point.</p>
+
+<p>Data sets are a commodity, but unlike other commodities data sets are
+reusable. Even more importantly, the value of data multiplies with
+every use. Data gains value when leveraged by analytical models. These
+models are simultaneously generating new data and driving decisions. A
+Data Scientist maximizes her value when she treats data as a reusable
+commodity for the enterprise. By building and nurturing these data
+assets she enables reuse of the data for application development,
+other analytical questions, and reporting. Circling back to the
+statement &ldquo;if one person or one team can solve a problem by themselves
+it is probably not a problem worth solving,&rdquo; having an Agile team
+built around the spectrum of data science skills is critical to
+addressing decisions that deliver real business value for an
+organization while simultaneously building a repertoire of reusable
+data assets.</p>
+
+
+                
+
+                        <div class="post-signature multiple">
+                            posted on November 11, 2015 by <br>
+                        
+
+
+                            <div class="author">
+                                
+                                <img src="https://avatars1.githubusercontent.com/u/9697696?v=3&s=40">
+                                
+                                    <span>
+                                        Seth Dobrin
+                                    </span>
+
+                                
+                                <a  href="https://twitter.com/sdobrin">
+                                    <i class="fa fa-twitter fa-1x "></i>
+                                </a>
+                                
+                                
+                                <a  href="https://github.com/dr-seth">
+                                    <i class="fa fa-github fa-1x"></i>
+                                </a>
+                                
+                            </div>
+                        
+                        </div>
+                
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/11/09/what-makes-a-data-scientist-part-1/" data-toggle="tooltip" data-placement="top" title="What Makes a Data Scientist - Part 1">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2015/11/12/simple-spray-part-2/" data-toggle="tooltip" data-placement="top" title="Building a simple Spray application - Part 2">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <li>
+                        <a href="https://twitter.com/MonPlatformEng">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.youtube.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-youtube-square fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://www.facebook.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://github.com/MonsantoCo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 2016 Engineering at Monsanto &nbsp;|&nbsp; Built with <a href="http://jekyllrb.com/">Jekyll</a> and hosted on <a href="https://pages.github.com/">GitHub Pages</a><br />
+                    <a href="/sitemap.xml">Sitemap</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/legal-notice/Pages/default.aspx">Legal Notice</a> &nbsp;|&nbsp;
+                    <a href="http://www.monsanto.com/privacy-policy/Pages/default.aspx">Privacy Policy</a> &nbsp;|&nbsp;
+                    <a href="/contact">Contact Us</a>
+
+                    </p>
+                <div align="center"><br /><img src="/img/Monsanto_logo.jpg" width="170" height="54" border="0" /></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+<!-- Google Analytics JavaScript -->
+
+<script>
+if (/monsanto\.com/.test(window.location.hostname)) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-43186905-16', 'auto');
+    ga('require', 'displayfeatures');
+    ga('send', 'pageview');
+
+    var trackOutboundLink = function(url) {
+        ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+                function () {
+                    document.location = url;
+                }
+        });
+    }
+}
+</script>
+<script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

@@ -1,27 +1,153 @@
----
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
-        <title>{{ site.name | xml_escape }}</title>
-        <description>{% if site.description %}{{ site.description | xml_escape }}{% endif %}</description>
-        <link>{{ site.url }}</link>
-        <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" />
-        {% for post in site.posts limit:10 %}
+        <title>Engineering at Monsanto</title>
+        <description>The engineers of Monsanto produce code that powers agricultural products that support farmers all around the world. Our goal of sustainable agriculture mirrors the way we present our ideas and code to the world.</description>
+        <link>http://engineering.monsanto.com</link>
+        <atom:link href="http://engineering.monsanto.com/feed.xml" rel="self" type="application/rss+xml" />
+        
             <item>
-                <title>{{ post.title | xml_escape }}</title>
-                {% if post.author.name %}
-                    <dc:creator>{{ post.author.name | xml_escape }}</dc:creator>
-                {% endif %}
-                {% if post.excerpt %}
-                    <description>{{ post.excerpt | xml_escape }}</description>
-                {% else %}
-                    <description>{{ post.content | xml_escape }}</description>
-                {% endif %}
-                <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-                <link>{{ site.url }}{{ post.url }}</link>
-                <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
+                <title>Easy Node Authentication With Ping</title>
+                
+                
+                    <description>&lt;h1&gt;Easy Node Authentication With Ping&lt;/h1&gt;
+</description>
+                
+                <pubDate>Fri, 11 Mar 2016 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2016/03/11/passport-ping-oauth2/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2016/03/11/passport-ping-oauth2/</guid>
             </item>
-        {% endfor %}
+        
+            <item>
+                <title>Cloud Foundry User Administration</title>
+                
+                
+                    <description>&lt;h1&gt;Cloud Foundry User Administration&lt;/h1&gt;
+</description>
+                
+                <pubDate>Fri, 29 Jan 2016 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2016/01/29/cf-users/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2016/01/29/cf-users/</guid>
+            </item>
+        
+            <item>
+                <title>Algebraic Data Types</title>
+                
+                
+                    <description>&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Algebraic_data_type&quot;&gt;Algebraic data types&lt;/a&gt;, usually abbreviated ADTs, are a useful construct in programming to increase code clarity and reduce the likelihood of errors. Generally speaking, they&amp;rsquo;re somewhat similar to enums in Java, but Scala lends much more power to the construct. ADTs define a fixed set of all possible values of a given type. The classic example of an ADT in Scala is the &lt;a href=&quot;http://www.scala-lang.org/api/current/index.html#scala.Option&quot;&gt;&lt;code&gt;Option&lt;/code&gt;&lt;/a&gt; type. An &lt;code&gt;Option&lt;/code&gt; represents something that may or may not have a value. No value is &lt;code&gt;None&lt;/code&gt; and some value is &lt;code&gt;Some()&lt;/code&gt;. This is the functional version of returning an object or null from a method in Java, and is very useful for Java interoperability to eliminate &lt;code&gt;NullPointerException&lt;/code&gt;&amp;rsquo;s.&lt;/p&gt;
+</description>
+                
+                <pubDate>Mon, 11 Jan 2016 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2016/01/11/algebraic-data-types/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2016/01/11/algebraic-data-types/</guid>
+            </item>
+        
+            <item>
+                <title>Optimized Chinese Restaurant Process</title>
+                
+                
+                    <description>&lt;h2&gt;TL;DR&lt;/h2&gt;
+</description>
+                
+                <pubDate>Mon, 23 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/23/chinese-restaurant-process/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/23/chinese-restaurant-process/</guid>
+            </item>
+        
+            <item>
+                <title>What Makes a Data Scientist - Part 3</title>
+                
+                
+                    <description>&lt;p&gt;Reposted from &lt;a href=&quot;https://www.linkedin.com/pulse/what-makes-data-scientist-finding-unicorns-midwest-seth-dobrin-phd?trk=prof-post&quot;&gt;LinkedIn&lt;/a&gt;.&lt;/p&gt;
+</description>
+                
+                <pubDate>Mon, 16 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/16/what-makes-a-data-scientist-part-3/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/16/what-makes-a-data-scientist-part-3/</guid>
+            </item>
+        
+            <item>
+                <title>Anatomy of Analytics</title>
+                
+                
+                    <description>&lt;p&gt;Years ago, when I made the switch from procedural to object oriented
+programming, concepts such as function overloading fascinated me.  A
+single function changing and behaving based on the types of values
+passed to it spoke volumes to its simplicity and elegance. Feeling a
+bit nostalgic I am going to say, &amp;ldquo;Those were the good old days!&amp;rdquo;
+Today, the word &lt;strong&gt;&lt;em&gt;Analytics&lt;/em&gt;&lt;/strong&gt; is certainly an overloaded term in the
+data world!  It is used to define work done by data scientists to
+business analysts and from execution of sophisticated statistical
+algorithms to the use of simple visualization tools. Oh, and let&amp;rsquo;s not
+forget its synonymous use with the term &amp;ldquo;Big Data.&amp;rdquo; I wish I could
+muster up the same sense of euphoria for the overloaded term
+&lt;strong&gt;&lt;em&gt;Analytics&lt;/em&gt;&lt;/strong&gt; that I once felt for the use of overloaded functions
+in a class definition.&lt;/p&gt;
+</description>
+                
+                <pubDate>Fri, 13 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/13/analytics-part-1/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/13/analytics-part-1/</guid>
+            </item>
+        
+            <item>
+                <title>Building a simple Spray application - Part 2</title>
+                
+                
+                    <description>&lt;p&gt;&lt;a href=&quot;http://engineering.monsanto.com/2015/08/11/simple-spray/&quot;&gt;Last time we spoke&lt;/a&gt;
+we went through the simple building blocks to creating a Spray
+application.  As you go forward though, you will want to have more
+options in composing your routes, and making sure the routes are
+constructed correctly.&lt;/p&gt;
+</description>
+                
+                <pubDate>Thu, 12 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/12/simple-spray-part-2/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/12/simple-spray-part-2/</guid>
+            </item>
+        
+            <item>
+                <title>What Makes a Data Scientist - Part 2</title>
+                
+                
+                    <description>&lt;p&gt;Reposted from &lt;a href=&quot;https://www.linkedin.com/pulse/what-makes-data-scientist-part-2-role-teams-seth-dobrin?trk=prof-post&quot;&gt;LinkedIn&lt;/a&gt;.&lt;/p&gt;
+</description>
+                
+                <pubDate>Wed, 11 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/11/what-makes-a-data-scientist-part-2/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/11/what-makes-a-data-scientist-part-2/</guid>
+            </item>
+        
+            <item>
+                <title>What Makes a Data Scientist - Part 1</title>
+                
+                
+                    <description>&lt;p&gt;Reposted from &lt;a href=&quot;https://www.linkedin.com/pulse/what-makes-data-scientist-part-1-seth-dobrin?trk=prof-post&quot;&gt;LinkedIn&lt;/a&gt;.&lt;/p&gt;
+</description>
+                
+                <pubDate>Mon, 09 Nov 2015 00:00:00 -0600</pubDate>
+                <link>http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/11/09/what-makes-a-data-scientist-part-1/</guid>
+            </item>
+        
+            <item>
+                <title>AWS re:Invent 2015</title>
+                
+                
+                    <description>&lt;p&gt;Monsanto sent several of our IT staff to &lt;a href=&quot;https://reinvent.awsevents.com/&quot; title=&quot;AWS re:Invent 2015&quot;&gt;AWS re:Invent&lt;/a&gt;
+last week. We learned a lot and were excited to hear about the new
+services announced, especially those around the EC2 Container Service,
+Kinesis, IoT, AWS Config, and the data import/export device Snowball.
+We also gave a few talks and look forward to connecting and
+collaborating with the many that came up after the talks and spoke to
+us. If you couldn&amp;rsquo;t attend in person, have a look and
+&lt;a href=&quot;http://engineering.monsanto.com/contact/&quot; title=&quot;Contact Monsanto Engineering&quot;&gt;let us know what you think&lt;/a&gt;.&lt;/p&gt;
+</description>
+                
+                <pubDate>Wed, 14 Oct 2015 00:00:00 -0500</pubDate>
+                <link>http://engineering.monsanto.com/2015/10/14/aws-reinvent/</link>
+                <guid isPermaLink="true">http://engineering.monsanto.com/2015/10/14/aws-reinvent/</guid>
+            </item>
+        
     </channel>
 </rss>
