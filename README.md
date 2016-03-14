@@ -6,17 +6,6 @@ This is the engineering blog of Monsanto engineers, where we’ll share
 ideas we have, open source software we use and have created. Watch
 this space for future articles.
 
-## New Posts
-
-To contribute a new post, Monsanto engineers should fork the
-`engineering-blog` repo, clone the fork, create a branch from develop,
-create your new post in the `_posts` directory, check it in, push it,
-create a [pull request][PR] from your new branch into develop on the
-main version. After the PR is submitted it will go through the
-approval process. Thanks
-
-[PR]: https://github.com/MonsantoCo/engineering-blog/pulls (Monsanto Engineering Blog Pull Requests)
-
 ## Usage and development
 
 *   Our engineering blog is built by [Jekyll][], so to work on it first
